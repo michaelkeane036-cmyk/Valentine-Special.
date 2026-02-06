@@ -1,424 +1,521 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Be My Val? 💕</title>
-    <style>
-        /* Global styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #ffebee;
-            color: #d32f2f;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-            overflow: hidden;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Be My Val? 💕</title>
 
-        .container {
-            max-width: 600px;
-            padding: 20px;
-        }
+  <style>
+    /* ──────────────────────────────────────────────── */
+    /* Global & Reset */
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #fff0f5 0%, #ffebee 100%);
+      color: #d32f2f;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
 
-        h1, p {
-            margin: 20px 0;
-        }
+    .container {
+      max-width: 600px;
+      padding: 20px;
+    }
 
-        input[type="text"] {
-            padding: 10px;
-            font-size: 18px;
-            border: 2px solid #f48fb1;
-            border-radius: 5px;
-            width: 80%;
-            max-width: 300px;
-        }
+    h1, p {
+      margin: 20px 0;
+    }
 
-        button {
-            padding: 12px 24px;
-            font-size: 18px;
-            background-color: #ec407a;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 10px;
-            transition: background-color 0.3s, transform 0.3s;
-        }
+    input[type="text"] {
+      padding: 12px;
+      font-size: 18px;
+      border: 2px solid #f48fb1;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 320px;
+    }
 
-        button:hover {
-            background-color: #d81b60;
-            transform: scale(1.05);
-        }
+    button {
+      padding: 14px 28px;
+      font-size: 18px;
+      background-color: #ec407a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px;
+      transition: all 0.3s;
+    }
 
-        .error {
-            color: #f44336;
-            font-size: 16px;
-            margin-top: 10px;
-        }
+    button:hover {
+      background-color: #d81b60;
+      transform: scale(1.05);
+    }
 
-        .link-container {
-            margin-top: 20px;
-            background: #fff;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
+    .error {
+      color: #f44336;
+      font-size: 16px;
+      margin-top: 8px;
+    }
 
-        .share-link {
-            font-size: 16px;
-            word-break: break-all;
-            margin-bottom: 10px;
-        }
+    /* Link sharing page */
+    .link-container {
+      margin-top: 20px;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
 
-        .copy-feedback {
-            font-size: 14px;
-            color: #4caf50;
-            display: none;
-        }
+    .share-link {
+      font-size: 16px;
+      word-break: break-all;
+      margin-bottom: 12px;
+      color: #333;
+    }
 
-        /* Question page styles */
-        .question {
-            font-size: 32px;
-            margin-bottom: 40px;
-        }
+    .copy-feedback {
+      font-size: 14px;
+      color: #4caf50;
+      display: none;
+    }
 
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
+    /* Question page */
+    .question-wrapper {
+      position: relative;
+      margin-bottom: 40px;
+    }
 
-        #yes-btn {
-            background-color: #4caf50;
-        }
+    .heart-bg {
+      position: absolute;
+      font-size: 180px;
+      opacity: 0.07;
+      color: #ff6b81;
+      pointer-events: none;
+      animation: pulse 8s infinite ease-in-out;
+      z-index: -1;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
 
-        #yes-btn:hover {
-            background-color: #388e3c;
-        }
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50%      { transform: translate(-50%, -50%) scale(1.15); }
+    }
 
-        #no-btn {
-            background-color: #f44336;
-            position: relative; /* Changed to relative for easier movement within container */
-            transition: transform 0.25s ease-out;
-        }
+    .question {
+      font-size: 32px;
+      margin: 0;
+      animation: fadeInScale 1.2s ease-out forwards;
+    }
 
-        #no-btn:hover {
-            background-color: #d32f2f;
-        }
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
 
-        /* Celebration animation */
-        .confetti {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 10;
-            display: none;
-        }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
 
-        .confetti-piece {
-            position: absolute;
-            width: 10px;
-            height: 20px;
-            background: #ffd300;
-            opacity: 0.8;
-            animation: fall 3s linear infinite;
-        }
+    #yes-btn {
+      background-color: #4caf50;
+    }
 
-        @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
+    #yes-btn:hover {
+      background-color: #388e3c;
+    }
 
-        /* Book promotion modal */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 20;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
+    #no-btn {
+      background-color: #f44336;
+      position: absolute;
+      transition: all 0.3s ease-out;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(244, 67, 54, 0.4);
+    }
 
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            max-width: 400px;
-            transform: scale(0.8);
-            transition: transform 0.5s;
-        }
+    #no-btn:hover {
+      background-color: #d32f2f;
+    }
 
-        img {
-    display: block;
-    margin: 20px auto;
-    max-width: 90%;
-    width: 280px;
-    max-width: 320px;          /* ← added cap */
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-}
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+      display: none;
+    }
 
-img {
-    background: #fff;
-    padding: 10px;
-    border: 1px solid #ffebee;
-}
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 20px;
+      background: #ffd300;
+      opacity: 0.8;
+      animation: fall 3s linear infinite;
+    }
 
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
 
+    /* Modal */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      display: none;
+      place-items: center;
+      z-index: 20;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
 
-        .modal.show {
-            display: flex;
-            opacity: 1;
-        }
+    .modal.show {
+      display: flex;
+      opacity: 1;
+    }
 
-        .modal.show .modal-content {
-            transform: scale(1);
-        }
+    .modal-content {
+      background: white;
+      padding: 32px 24px;
+      border-radius: 16px;
+      max-width: 420px;
+      width: 90%;
+      transform: scale(0.8);
+      transition: transform 0.5s;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
 
-        .modal a {
-            color: #ec407a;
-            text-decoration: none;
-            font-weight: bold;
-        }
+    .modal.show .modal-content {
+      transform: scale(1);
+    }
 
-        .fallback {
-            font-size: 20px;
-        }
-    </style>
+    .modal img {
+      display: block;
+      margin: 20px auto 30px;
+      max-width: 90%;
+      width: 280px;
+      max-width: 320px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+      border: 1px solid #ffebee;
+      background: white;
+      padding: 10px;
+    }
+
+    .modal a {
+      color: #ec407a;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .fallback {
+      font-size: 20px;
+      padding: 20px;
+    }
+
+    /* Footer */
+    footer {
+      position: fixed;
+      bottom: 12px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #777;
+      font-size: 13px;
+      pointer-events: none;
+    }
+
+    /* Floating music notes */
+    @keyframes floatNote {
+      to {
+        transform: translateY(-120vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container" id="welcome">
-        <h1>What is your partner’s name? 💕</h1>
-        <input type="text" id="partner-name" placeholder="Enter name here">
-        <button id="continue-btn">Continue</button>
-        <p class="error" id="error-msg"></p>
+
+  <!-- Welcome -->
+  <div class="container" id="welcome">
+    <h1>What is your partner’s name? 💕</h1>
+    <input type="text" id="partner-name" placeholder="Enter name here" autocomplete="off"/>
+    <button id="continue-btn">Continue</button>
+    <p class="error" id="error-msg"></p>
+  </div>
+
+  <!-- Share link -->
+  <div class="container" id="link-page" style="display:none;">
+    <h1>Share this special link! 💕</h1>
+    <div class="link-container">
+      <p class="share-link" id="share-link"></p>
+      <button id="copy-btn">Copy Link</button>
+      <p class="copy-feedback" id="copy-feedback">Copied! 💕</p>
+    </div>
+  </div>
+
+  <!-- Question page -->
+  <div class="container" id="question-page" style="display:none;">
+    <div class="question-wrapper">
+      <div class="heart-bg">❤️</div>
+      <h1 class="question" id="question-text"></h1>
     </div>
 
-    <div class="container" id="link-page" style="display: none;">
-        <h1>Share this special link with your partner! 💕</h1>
-        <div class="link-container">
-            <p class="share-link" id="share-link"></p>
-            <button id="copy-btn">Copy Link</button>
-            <p class="copy-feedback" id="copy-feedback">Copied! 💕</p>
-        </div>
+    <div class="buttons">
+      <button id="yes-btn">Yes ✅</button>
+      <button id="no-btn">No ❌</button>
     </div>
 
-    <div class="container" id="question-page" style="display: none;">
-        <h1 class="question" id="question-text"></h1>
-        <div class="buttons">
-            <button id="yes-btn">Yes ✅</button>
-            <button id="no-btn">No ❌</button>
-        </div>
-        <p class="fallback" id="fallback-msg" style="display: none;"></p>
-    </div>
+    <p class="fallback" id="fallback-msg" style="display:none;"></p>
+  </div>
 
-    <!-- Celebration confetti -->
-    <div class="confetti" id="confetti"></div>
+  <!-- Confetti container -->
+  <div class="confetti" id="confetti"></div>
 
-    <!-- Book promotion modal -->
-<div class="modal" id="modal">
+  <!-- Modal -->
+  <div class="modal" id="modal">
     <div class="modal-content">
-        <h2>Yay! 🎉❤️</h2>
+      <h2>Yay! 🎉❤️</h2>
 
-        <!-- Ebook cover image -->
-        <img 
-            src="the-power-of-music.jpeg" 
-            alt="The Power of Music by Kelvin Tabi - Ebook Cover" 
-            style="display: block; margin: 20px auto; max-width: 90%; width: 280px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.2);"
-        >
+      <img 
+        src="the-power-of-music.jpeg" 
+        alt="The Power of Music by Kelvin Tabi - Ebook Cover"
+        loading="lazy"
+      >
 
-        <p>While you're in such a loving mood, check out my ebook</p>
-        <h3 style="margin: 10px 0; color: #d81b60;">The Power of Music</h3>
-        <p style="font-size: 17px; margin-bottom: 20px;">
-            Discover how music can deepen connections, spark romance, and bring people closer ❤️
-        </p>
+      <p>While you're in such a loving mood, check out my ebook</p>
+      <h3 style="margin:10px 0; color:#d81b60;">The Power of Music</h3>
+      <p style="font-size:17px; margin-bottom:24px;">
+        Discover how music can deepen connections, spark romance, and bring people closer ❤️
+      </p>
 
-        <p><a href="https://example.com/the-power-of-music" target="_blank" style="font-size: 18px; font-weight: bold;">
-            Learn more about the ebook →
-        </a></p>
+      <p>
+        <a href="https://selar.com/8e83411u16" target="_blank">
+          Learn more about the ebook →
+        </a>
+      </p>
 
-        <button onclick="document.getElementById('modal').classList.remove('show')" style="margin-top: 20px;">
-            Close
-        </button>
+      <button onclick="document.getElementById('modal').classList.remove('show')" style="margin-top:24px;">
+        Close
+      </button>
     </div>
-</div>
+  </div>
 
-    <script>
-        // Helper functions
-        function showElement(id) {
-            document.getElementById(id).style.display = 'block';
-        }
+  <footer>Made with ❤️ by Kelvin Tabi</footer>
 
-        function hideElement(id) {
-            document.getElementById(id).style.display = 'none';
-        }
+  <script>
+    // ────────────────────────────────────────────────
+    // Helpers
+    function showElement(id) { document.getElementById(id).style.display = 'block'; }
+    function hideElement(id) { document.getElementById(id).style.display = 'none'; }
 
-        // Welcome screen logic
-        const continueBtn = document.getElementById('continue-btn');
-        const partnerNameInput = document.getElementById('partner-name');
-        const errorMsg = document.getElementById('error-msg');
+    const yesSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkle-whoosh-2345.mp3');
 
-        continueBtn.addEventListener('click', () => {
-            const name = partnerNameInput.value.trim();
-            if (!name) {
-                errorMsg.textContent = 'Please enter a name 💕';
-                return;
-            }
-            errorMsg.textContent = '';
+    // ────────────────────────────────────────────────
+    // Welcome → generate link
+    document.getElementById('continue-btn').addEventListener('click', () => {
+      const name = document.getElementById('partner-name').value.trim();
+      const error = document.getElementById('error-msg');
 
-            const encodedName = encodeURIComponent(name);
-            const shareLink = `${window.location.origin}${window.location.pathname}?valentine=${encodedName}`;
-            document.getElementById('share-link').textContent = shareLink;
+      if (!name) {
+        error.textContent = 'Please enter a name 💕';
+        return;
+      }
 
-            hideElement('welcome');
-            showElement('link-page');
-        });
+      error.textContent = '';
 
-        // Copy link button
-        const copyBtn = document.getElementById('copy-btn');
-        const copyFeedback = document.getElementById('copy-feedback');
-        const shareLinkElem = document.getElementById('share-link');
+      const encoded = encodeURIComponent(name);
+      const link = `${location.origin}${location.pathname}?valentine=${encoded}`;
+      document.getElementById('share-link').textContent = link;
 
-        copyBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(shareLinkElem.textContent).then(() => {
-                copyFeedback.style.display = 'block';
-                setTimeout(() => {
-                    copyFeedback.style.display = 'none';
-                }, 2000);
-            });
-        });
+      hideElement('welcome');
+      showElement('link-page');
+    });
 
-        // Question page logic
-        function initQuestionPage() {
-            const params = new URLSearchParams(window.location.search);
-            const encodedName = params.get('valentine');
-            let name = '';
-            if (encodedName) {
-                try {
-                    name = decodeURIComponent(encodedName).trim();
-                } catch (e) {
-                    name = '';
-                }
-            }
+    // Copy link
+    document.getElementById('copy-btn').addEventListener('click', () => {
+      const link = document.getElementById('share-link').textContent;
+      navigator.clipboard.writeText(link).then(() => {
+        const fb = document.getElementById('copy-feedback');
+        fb.style.display = 'block';
+        setTimeout(() => fb.style.display = 'none', 2000);
+      });
+    });
 
-            if (!name) {
-                document.getElementById('fallback-msg').textContent = 'Someone made this special page for you! 💕 Go back to the main page to enter a name.';
-                showElement('fallback-msg');
-                const backBtn = document.createElement('button');
-                backBtn.textContent = 'Back to Main';
-                backBtn.addEventListener('click', () => {
-                    window.location.href = window.location.origin + window.location.pathname;
-                });
-                document.getElementById('fallback-msg').appendChild(backBtn);
-                hideElement('question-text');
-                hideElement('buttons');
-                return;
-            }
+    // ────────────────────────────────────────────────
+    // Question page logic
+    function initQuestionPage() {
+      const params = new URLSearchParams(location.search);
+      const encodedName = params.get('valentine');
+      let name = '';
 
-            document.getElementById('question-text').textContent = `${name}, would you be my Val? ❤️`;
-        }
+      if (encodedName) {
+        try {
+          name = decodeURIComponent(encodedName).trim();
+        } catch {}
+      }
 
-        // No button playful logic
-        const noBtn = document.getElementById('no-btn');
-        const noTexts = ['😏 nope!', 'try harder~', 'not today! 😉', 'catch me if you can!', 'almost... 😂'];
-        let textIndex = 0;
+      if (!name) {
+        const msg = document.getElementById('fallback-msg');
+        msg.textContent = 'Someone made this special page for you! 💕';
+        const btn = document.createElement('button');
+        btn.textContent = 'Go to main page';
+        btn.style.marginTop = '20px';
+        btn.onclick = () => location.href = location.origin + location.pathname;
+        msg.appendChild(btn);
+        msg.style.display = 'block';
+        hideElement('question-text');
+        hideElement('buttons');
+        return;
+      }
 
-        function moveNoButton(event) {
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
-            const btnWidth = noBtn.offsetWidth;
-            const btnHeight = noBtn.offsetHeight;
+      // Set title
+      document.title = `${name}, will you be my Val? 💕`;
 
-            // Get cursor/touch position
-            let cursorX = event.clientX || (event.touches && event.touches[0].clientX) || viewportWidth / 2;
-            let cursorY = event.clientY || (event.touches && event.touches[0].clientY) || viewportHeight / 2;
+      const questionEl = document.getElementById('question-text');
+      questionEl.textContent = `${name}, would you be my Val? ❤️`;
 
-            // Calculate new position away from cursor (at least 120px away)
-            let newX, newY;
-            do {
-                newX = Math.random() * (viewportWidth - btnWidth * 2) + btnWidth / 2;
-                newY = Math.random() * (viewportHeight - btnHeight * 2) + btnHeight / 2;
-            } while (Math.hypot(newX - cursorX, newY - cursorY) < 120);
+      // Check if already answered
+      const answered = localStorage.getItem(`valentine_${encodedName}`);
+      if (answered === 'yes') {
+        questionEl.innerHTML = `${name}, you already said Yes! 🥰❤️`;
+        hideElement('buttons');
+        return;
+      }
+    }
 
-            noBtn.style.position = 'absolute';
-            noBtn.style.transform = `translate(${newX}px, ${newY}px)`;
+    // ────────────────────────────────────────────────
+    // No button logic
+    const noBtn = document.getElementById('no-btn');
+    const noTexts = [
+      '😏 nope!', 'try harder~', 'not today! 😉', 'catch me if you can!',
+      'almost... 😂', 'you’re getting warmer… or not~ 🔥',
+      'heeey stop bullying me! 😭', 'this is harassment cutie 💅',
+      'maybe next lifetime? 👀'
+    ];
+    let textIndex = 0;
 
-            // Cycle text
-            noBtn.textContent = noTexts[textIndex];
-            textIndex = (textIndex + 1) % noTexts.length;
-            setTimeout(() => {
-                noBtn.textContent = 'No ❌';
-            }, 1500); // Reset text after 1.5s
-        }
+    function moveNoButton(e) {
+      const isTouch = e.type.startsWith('touch');
+      const rect = noBtn.getBoundingClientRect();
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const w = rect.width;
+      const h = rect.height;
 
-        // Event listeners for no button
-        noBtn.addEventListener('mouseenter', moveNoButton);
-        noBtn.addEventListener('touchstart', moveNoButton);
-        noBtn.addEventListener('touchmove', (e) => {
-            if (e.target === noBtn) moveNoButton(e);
-        });
-        noBtn.addEventListener('mousedown', moveNoButton);
-        noBtn.addEventListener('touchend', moveNoButton);
+      let cx = isTouch ? e.touches[0]?.clientX : e.clientX;
+      let cy = isTouch ? e.touches[0]?.clientY : e.clientY;
 
-        // Yes button logic
-        const yesBtn = document.getElementById('yes-btn');
-        const confetti = document.getElementById('confetti');
-        const modal = document.getElementById('modal');
+      if (!cx || !cy) {
+        cx = vw / 2;
+        cy = vh / 2;
+      }
 
-        function createConfetti() {
-            for (let i = 0; i < 100; i++) {
-                const piece = document.createElement('div');
-                piece.classList.add('confetti-piece');
-                piece.style.left = `${Math.random() * 100}%`;
-                piece.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                piece.style.animationDelay = `${Math.random() * 3}s`;
-                piece.style.animationDuration = `${3 + Math.random() * 2}s`;
-                confetti.appendChild(piece);
-            }
-        }
+      const minDist = window.innerWidth < 768 ? 160 : 120;
 
-        yesBtn.addEventListener('click', () => {
-            // Start celebration
-            createConfetti();
-            showElement('confetti');
+      let x, y;
+      do {
+        x = Math.random() * (vw - w - 40) + 20;
+        y = Math.random() * (vh - h - 40) + 20;
+      } while (Math.hypot(x + w/2 - cx, y + h/2 - cy) < minDist);
 
-            // Stop after 5 seconds
-            setTimeout(() => {
-                confetti.innerHTML = ''; // Clear confetti
-                hideElement('confetti');
+      noBtn.style.left = x + 'px';
+      noBtn.style.top  = y + 'px';
+      noBtn.style.transform = `rotate(${Math.random()*8 - 4}deg) scale(1.05)`;
 
-                // Show modal
-                modal.classList.add('show');
-            }, 5000);
-        });
+      noBtn.textContent = noTexts[textIndex];
+      textIndex = (textIndex + 1) % noTexts.length;
 
-        // Check if on question page
-        if (window.location.search.includes('valentine')) {
-            hideElement('welcome');
-            hideElement('link-page');
-            showElement('question-page');
-            initQuestionPage();
-        } else {
-            hideElement('link-page');
-            hideElement('question-page');
-            showElement('welcome');
-        }
-    </script>
+      setTimeout(() => {
+        noBtn.textContent = 'No ❌';
+      }, 1400);
+    }
+
+    ['mouseenter', 'mousedown', 'touchstart', 'touchmove', 'touchend'].forEach(ev => {
+      noBtn.addEventListener(ev, moveNoButton, { passive: true });
+    });
+
+    // ────────────────────────────────────────────────
+    // Yes button + celebration
+    const yesBtn   = document.getElementById('yes-btn');
+    const confetti = document.getElementById('confetti');
+    const modal    = document.getElementById('modal');
+
+    function createConfetti() {
+      for (let i = 0; i < 100; i++) {
+        const p = document.createElement('div');
+        p.className = 'confetti-piece';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.background = `hsl(${Math.random()*360}, 90%, 60%)`;
+        p.style.animationDelay = Math.random() * 3 + 's';
+        p.style.animationDuration = (3 + Math.random()*2) + 's';
+        confetti.appendChild(p);
+      }
+    }
+
+    function createMusicNotes() {
+      const notes = ['♪','♫','♬','🎵','🎶'];
+      for (let i = 0; i < 60; i++) {
+        const n = document.createElement('div');
+        n.textContent = notes[Math.floor(Math.random()*notes.length)];
+        n.style.position = 'absolute';
+        n.style.left = Math.random()*100 + 'vw';
+        n.style.top = '-20px';
+        n.style.fontSize = (20 + Math.random()*30) + 'px';
+        n.style.color = `hsl(${Math.random()*60 + 330}, 90%, 55%)`;
+        n.style.pointerEvents = 'none';
+        n.style.animation = `floatNote ${4 + Math.random()*3}s linear forwards`;
+        document.body.appendChild(n);
+        setTimeout(() => n.remove(), 8000);
+      }
+    }
+
+    yesBtn.addEventListener('click', () => {
+      const encoded = new URLSearchParams(location.search).get('valentine');
+      if (encoded) localStorage.setItem(`valentine_${encoded}`, 'yes');
+
+      createConfetti();
+      createMusicNotes();
+      showElement('confetti');
+      yesSound.currentTime = 0;
+      yesSound.play().catch(() => {});
+
+      setTimeout(() => {
+        confetti.innerHTML = '';
+        hideElement('confetti');
+        modal.classList.add('show');
+      }, 5000);
+    });
+
+    // ────────────────────────────────────────────────
+    // Initialize
+    if (location.search.includes('valentine=')) {
+      hideElement('welcome');
+      hideElement('link-page');
+      showElement('question-page');
+      initQuestionPage();
+    } else {
+      hideElement('link-page');
+      hideElement('question-page');
+      showElement('welcome');
+    }
+  </script>
 </body>
 </html>
